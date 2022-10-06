@@ -1,0 +1,41 @@
+service: aws-eventbridge-example
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: eu-west-2
+  stage: dev
+
+plugins:
+  - serverless-offline
+
+functions:
+  getVersion:
+    handler: src/handlers/index.getVersion
+    events:
+      - http:
+          method: GET
+          path: /
+  orderCreate:
+    handler: src/handlers/index.orderCreate
+    events:
+      - http:
+          method: POST
+          path: /orders
+  invoiceCreate:
+    handler: src/handlers/index.invoiceCreate
+    events:
+      - eventBridge:
+          eventBus: custom-events
+          pattern:
+            source:
+              - custom.orderCreate
+  dispatchCreate:
+    handler: src/handlers/index.dispatchCreate
+    events:
+      - eventBridge:
+          eventBus: custom-events
+          pattern:
+            source:
+              - custom.orderCreate
