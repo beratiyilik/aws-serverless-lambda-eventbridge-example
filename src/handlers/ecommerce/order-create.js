@@ -1,10 +1,15 @@
 "use strict";
 
-import AWS from "aws-sdk";
+// import AWS from "aws-sdk";
 import middyfy from "../../middleware/index.js";
+import {
+  EventBridgeClient,
+  PutEventsCommand,
+} from "@aws-sdk/client-eventbridge";
 
 const REGION = process.env.AWS_REGION || "eu-west-2";
-AWS.config.update({ region: REGION });
+// AWS.config.update({ region: REGION });
+const CLIENT = new EventBridgeClient({ region: REGION });
 
 const createOrderService = async (event) => {
   console.log(
@@ -24,8 +29,13 @@ const createOrderService = async (event) => {
       },
     ],
   };
+  /*
   const eventBridge = new AWS.EventBridge({ apiVersion: "2015-10-07" });
   const result = await eventBridge.putEvents(params).promise();
+  */
+
+  const command = new PutEventsCommand(params);
+  const result = await CLIENT.send(command);
 
   return {
     statusCode: 201,
