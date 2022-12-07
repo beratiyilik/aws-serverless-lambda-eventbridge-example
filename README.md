@@ -90,3 +90,28 @@ serverless offline
 ```
 
 To learn more about the capabilities of `serverless-offline`, please refer to its [GitHub repository](https://github.com/dherault/serverless-offline).
+
+### Project File Tree
+```
+📦 aws-serverless-lambda-eventbridge-example
+├─ .gitignore
+├─ README.md
+├─ package-lock.json
+├─ package.json
+├─ serverless.yml
+└─ src
+   ├─ handlers
+   │  ├─ ecommerce
+   │  │  ├─ dispatch-create.js
+   │  │  ├─ index.js
+   │  │  ├─ invoice-create.js
+   │  │  └─ order-create.js
+   │  ├─ get-version.js
+   │  └─ index.js
+   ├─ middleware
+   │  └─ index.js
+   └─ utils
+      ├─ delay.js
+      ├─ index.js
+      └─ number.js
+```
