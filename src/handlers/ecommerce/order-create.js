@@ -1,21 +1,22 @@
 "use strict";
 
-// import AWS from "aws-sdk";
 import middyfy from "../../middleware/index.js";
 import {
   EventBridgeClient,
+  ActivateEventSourceCommand,
   PutEventsCommand,
 } from "@aws-sdk/client-eventbridge";
 
 const REGION = process.env.AWS_REGION || "eu-west-2";
-// AWS.config.update({ region: REGION });
-const CLIENT = new EventBridgeClient({ region: REGION });
+const client = new EventBridgeClient({ region: REGION });
 
 const createOrderService = async (event) => {
+  const { body, ...rest } = event;
   console.log(
-    `order create handler called with event: ${JSON.stringify(event)}`
+    `order create handler called with event: ${JSON.stringify(rest, null, 2)}`
   );
-  console.log(`order create body: ${JSON.stringify(event.body)}`);
+  console.log(`order create body: ${JSON.stringify(body, null, 2)}`);
+
   const { requestId } = event.requestContext;
 
   const params = {
@@ -29,25 +30,18 @@ const createOrderService = async (event) => {
       },
     ],
   };
-  /*
-  const eventBridge = new AWS.EventBridge({ apiVersion: "2015-10-07" });
-  const result = await eventBridge.putEvents(params).promise();
-  */
 
+  // const command = new ActivateEventSourceCommand(params);
   const command = new PutEventsCommand(params);
-  const result = await CLIENT.send(command);
+  const result = await client.send(command);
 
   return {
     statusCode: 201,
-    body: JSON.stringify(
-      {
-        message: "This is order create lambda!",
-        body: { ...event.body, requestId },
-        result,
-      },
-      null,
-      2
-    ),
+    body: JSON.stringify({
+      message: "This is order create lambda!",
+      body: { ...event.body, requestId },
+      result,
+    }),
   };
 };
 

@@ -5,13 +5,13 @@
   "main": "src/handlers/index.js",
   "type": "module",
   "dependencies": {
+    "@aws-sdk/client-eventbridge": "^3.234.0",
     "@middy/core": "^3.5.0",
     "@middy/http-cors": "^3.5.0",
     "@middy/http-error-handler": "^3.5.0",
     "@middy/http-header-normalizer": "^3.5.0",
     "@middy/http-json-body-parser": "^3.5.0",
     "@middy/validator": "^3.5.0",
-    "@aws-sdk/client-eventbridge": "^3.212.0",
     "http-errors": "^1.8.1",
     "middy": "^0.24.0",
     "node-fetch": "^3.2.10",
@@ -24,6 +24,6 @@
   "author": "Berat Iyilik <beratiyilik@hotmail.com> (http://beratiyilik.com/)",
   "license": "ISC",
   "devDependencies": {
-    "serverless-offline": "^11.0.2"
+    "serverless-offline": "^12.0.3"
   }
 }
